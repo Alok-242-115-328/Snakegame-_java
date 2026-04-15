@@ -89,17 +89,6 @@ public class GamePanel extends JPanel implements ActionListener {
     JButton level1Btn, level2Btn, level3Btn, level4Btn, level5Btn, level6Btn, justPlayBtn;
     JButton unlockToggleButton, soundToggleButton;
 
-
-    /// ///////////////////////////0001
-  /*  private void playClickSound() {
-        if (soundEnabled) {
-            playSound("click.wav");
-        }
-    }
-    /// ////////////////////////////////////////0001
-*/
-
-
     public GamePanel() {
         random = new Random();
         appleImage = new ImageIcon("src/apple.png").getImage();
@@ -391,6 +380,7 @@ public class GamePanel extends JPanel implements ActionListener {
         repaint();
     }
 
+    
     public void initializeSnakePosition() {
         int startX = (WIDTH / 2 / UNIT_SIZE) * UNIT_SIZE;
         int startY = ((GAME_HEIGHT / 2) / UNIT_SIZE) * UNIT_SIZE;
@@ -425,9 +415,8 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setColor(new Color(164, 200, 213));
         g.setFont(new Font("Arial", Font.BOLD, 50));
         FontMetrics fmMain = g.getFontMetrics();
-        g.drawString("VIPPER", (WIDTH - fmMain.stringWidth("VIPPER")) / 2, 120);
+        g.drawString("VIPER", (WIDTH - fmMain.stringWidth("VIPER")) / 2, 120);
 
-/////////////////////////////////////////////////////////////
         // Set the color and font once for both lines
         g.setColor(new Color(0, 181, 250));
         g.setFont(new Font("Arial", Font.ITALIC, 14));
@@ -483,7 +472,7 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setFont(new Font("Arial", Font.BOLD, (int)fontSize));
         g.setColor(Color.getHSBColor(hueValue / 360f, 0.8f, 0.8f));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
-        String title = "VIPPER";
+        String title = "VIPER";
         g.drawString(title, (WIDTH - metrics.stringWidth(title)) / 2, 80);
         g.setFont(new Font("Arial", Font.BOLD|Font.ITALIC, 15));
         g.setColor(new Color(246, 223, 223));
@@ -845,7 +834,7 @@ public class GamePanel extends JPanel implements ActionListener {
             this.add(nextLevelButton); // <--- FIXED: This line was missing!
         }
     }
-
+    
     // Helper method to handle button sounds
     private void playClickSound() {
         if (soundEnabled) {
