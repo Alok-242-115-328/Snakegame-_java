@@ -28,6 +28,9 @@ public class GamePanel extends JPanel implements ActionListener {
     private Clip menuMusicClip;
     private boolean soundEnabled = true;
 
+
+
+
     // ================== LOADING SYSTEM ==================
     private static boolean firstTimeLaunch = true;
     private boolean isInitialLoading = false;
@@ -86,11 +89,28 @@ public class GamePanel extends JPanel implements ActionListener {
     JButton level1Btn, level2Btn, level3Btn, level4Btn, level5Btn, level6Btn, justPlayBtn;
     JButton unlockToggleButton, soundToggleButton;
 
+
+    /// ///////////////////////////0001
+  /*  private void playClickSound() {
+        if (soundEnabled) {
+            playSound("click.wav");
+        }
+    }
+    /// ////////////////////////////////////////0001
+*/
+
+
     public GamePanel() {
         random = new Random();
         appleImage = new ImageIcon("src/apple.png").getImage();
         bigAppleImage = new ImageIcon("src/big_apple.png").getImage();
         menuBackgroundGif = new ImageIcon("src/menu_bg.gif").getImage();
+
+
+
+
+
+
 
         // High Score Initialization
         prefs = Preferences.userNodeForPackage(GamePanel.class);
@@ -137,7 +157,6 @@ public class GamePanel extends JPanel implements ActionListener {
             System.err.println("Menu music file not found or error.");
         }
     }
-
     private void stopMenuMusic() {
         if (menuMusicClip != null && menuMusicClip.isRunning()) {
             menuMusicClip.stop();
@@ -174,7 +193,6 @@ public class GamePanel extends JPanel implements ActionListener {
             wallBlocks[index++] = new Rectangle(WIDTH - UNIT_SIZE, HEIGHT - UNIT_SIZE - i * UNIT_SIZE, UNIT_SIZE, UNIT_SIZE);
         }
     }
-
     private void createLevel2Walls() {
         int wallLength = GAME_HEIGHT / 2;
         int startY = SCORE_HEIGHT + (GAME_HEIGHT - wallLength) / 2;
@@ -243,7 +261,13 @@ public class GamePanel extends JPanel implements ActionListener {
         unlockToggleButton.setMargin(new java.awt.Insets(0,0,0,0));
         unlockToggleButton.setFont(new Font("Arial", Font.BOLD, 12));
         updateUnlockButtonStyle();
-        unlockToggleButton.addActionListener(e -> toggleMasterUnlock());
+        /// //////////////////////////////////////2.1
+        unlockToggleButton.addActionListener(e -> {
+            playClickSound(); // Added
+            toggleMasterUnlock();
+        });
+
+        ///////////////////////////////2.1
         this.add(unlockToggleButton);
 
         // Sound Button
@@ -253,7 +277,12 @@ public class GamePanel extends JPanel implements ActionListener {
         soundToggleButton.setMargin(new java.awt.Insets(0,0,0,0));
         soundToggleButton.setFont(new Font("Arial", Font.BOLD, 12));
         updateSoundButtonStyle();
-        soundToggleButton.addActionListener(e -> toggleSound());
+        /// ////////////////////////////////////////////2.2
+        soundToggleButton.addActionListener(e -> {
+            playClickSound(); // Added
+            toggleSound();
+        });
+        /// ////////////////////////////////////////2.2
         this.add(soundToggleButton);
 
         level1Btn = new JButton("Level 1");
@@ -264,13 +293,15 @@ public class GamePanel extends JPanel implements ActionListener {
         level6Btn = new JButton("Level 6");
         justPlayBtn = new JButton("Just Play");
 
+
         JButton[] btns = {level1Btn, level2Btn, level3Btn, level4Btn, level5Btn, level6Btn, justPlayBtn};
         int yOffset = 180;
         for (JButton b : btns) {
             b.setFocusable(false);
             b.setBounds(WIDTH / 2 - 100, yOffset, 200, 30);
-            b.setBackground(new Color(240, 240, 240, 200));
+            b.setBackground(new Color(255, 255, 255, 255));
             b.setFont(new Font("SansSerif", Font.BOLD, 14));
+            b.addActionListener(e -> playClickSound()); // Added universal sound ///2.3
             this.add(b);
             yOffset += 35;
         }
@@ -326,7 +357,6 @@ public class GamePanel extends JPanel implements ActionListener {
             soundToggleButton.setText("M");
         }
     }
-
     private void updateLevelButtons() {
         level2Btn.setEnabled(masterUnlocked || level2Unlocked);
         level3Btn.setEnabled(masterUnlocked || level3Unlocked);
@@ -334,7 +364,6 @@ public class GamePanel extends JPanel implements ActionListener {
         level5Btn.setEnabled(masterUnlocked || level5Unlocked);
         level6Btn.setEnabled(masterUnlocked || level6Unlocked);
     }
-
     private void startLevel(int lvl) {
         stopMenuMusic();
         showMenu = false;
@@ -396,16 +425,7 @@ public class GamePanel extends JPanel implements ActionListener {
         g.setColor(new Color(164, 200, 213));
         g.setFont(new Font("Arial", Font.BOLD, 50));
         FontMetrics fmMain = g.getFontMetrics();
-        g.drawString("RATULA", (WIDTH - fmMain.stringWidth("RATULA")) / 2, 120);
-
-
-
-
-       /* g.setColor(new Color(0, 181, 250));
-        g.setFont(new Font("Arial", Font.PLAIN, 18));
-        FontMetrics fmSub= g.getFontMetrics();
-        g.drawString("A snake game\n Powered by jonny english", (WIDTH - fmSub.stringWidth("A snake game\n Powered by jonny english")) / 2, 150);
-*/
+        g.drawString("VIPPER", (WIDTH - fmMain.stringWidth("VIPPER")) / 2, 120);
 
 /////////////////////////////////////////////////////////////
         // Set the color and font once for both lines
@@ -456,14 +476,14 @@ public class GamePanel extends JPanel implements ActionListener {
         if (menuBackgroundGif != null) {
             g.drawImage(menuBackgroundGif, 0, 0, WIDTH, HEIGHT, this);
         } else {
-            g.setColor(new Color(220, 199, 199));
+            g.setColor(new Color(255, 244, 244));
             g.fillRect(0,0,WIDTH,HEIGHT);
         }
         float fontSize = (float) (45 * titleScale);
         g.setFont(new Font("Arial", Font.BOLD, (int)fontSize));
         g.setColor(Color.getHSBColor(hueValue / 360f, 0.8f, 0.8f));
         FontMetrics metrics = g.getFontMetrics(g.getFont());
-        String title = "RATULA";
+        String title = "VIPPER";
         g.drawString(title, (WIDTH - metrics.stringWidth(title)) / 2, 80);
         g.setFont(new Font("Arial", Font.BOLD|Font.ITALIC, 15));
         g.setColor(new Color(246, 223, 223));
@@ -556,7 +576,6 @@ public class GamePanel extends JPanel implements ActionListener {
             }
         }
     }
-
     private void handleGameOverUI(Graphics g) {
         g.setFont(new Font("Arial", Font.BOLD, 45));
         FontMetrics fm = g.getFontMetrics();
@@ -635,8 +654,9 @@ public class GamePanel extends JPanel implements ActionListener {
             prefs.putInt("highScore", highScore);
         }
     }
-///////////////////////////////////////////////////14
-  /*  @Override
+    ///////////////////////////////////////////////////14
+
+    @Override
     public void actionPerformed(ActionEvent e) {
         if (scalingUp) {
             titleScale += 0.005;
@@ -694,8 +714,18 @@ public class GamePanel extends JPanel implements ActionListener {
                 }
             }
             checkHit();
+
+            // Check for level completion targets
             if (running && currentActiveLevel > 0) {
-                int target = (currentActiveLevel == 6) ? 12 : (currentActiveLevel == 5 ? 11 : (currentActiveLevel == 4 ? 10 : 5));
+                int target = 0;
+                switch (currentActiveLevel) {
+                    case 1 -> target = 10;     //level 1
+                    case 2 -> target = 12;     //level 2
+                    case 3 -> target = 14;     //level 3
+                    case 4 -> target = 15;     //level 4
+                    case 5 -> target = 16;     //level 5
+                    case 6 -> target = 17;     //level 6
+                }
                 if (foodEaten >= target) {
                     running = false;
                     levelWonThisSession = true;
@@ -705,105 +735,6 @@ public class GamePanel extends JPanel implements ActionListener {
         }
         repaint();
     }
-
-////////////////////////////////////14
-   */
-
-
-
-
-@Override
-public void actionPerformed(ActionEvent e) {
-    if (scalingUp) {
-        titleScale += 0.005;
-        if (titleScale >= 1.05) scalingUp = false;
-    } else {
-        titleScale -= 0.005;
-        if (titleScale <= 0.95) scalingUp = true;
-    }
-
-    if (snakePulseUp) {
-        snakePulse += 0.05f;
-        if (snakePulse >= 1.5f) snakePulseUp = false;
-    } else {
-        snakePulse -= 0.05f;
-        if (snakePulse <= 0.8f) snakePulseUp = true;
-    }
-
-    hueValue = (hueValue + 2) % 360;
-
-    if (isInitialLoading) {
-        long elapsed = System.currentTimeMillis() - loadingStartTime;
-        if (elapsed >= TOTAL_LOADING_TIME) {
-            isInitialLoading = false;
-            firstTimeLaunch = false;
-            showStartMenu();
-        }
-        repaint();
-        return;
-    }
-
-    if (running && !paused) {
-        move();
-        if (x[0] == foodX && y[0] == foodY) {
-            length++;
-            foodEaten++;
-            playSound("eat.wav");
-            addFood();
-        }
-        if (bigAppleActive) {
-            Rectangle head = new Rectangle(x[0], y[0], UNIT_SIZE, UNIT_SIZE);
-            Rectangle bAppleRect = new Rectangle(bigAppleX, bigAppleY, UNIT_SIZE * 2, UNIT_SIZE * 2);
-            if (head.intersects(bAppleRect)) {
-                foodEaten += 4;
-                bigAppleActive = false;
-                playSound("big_eat.wav");
-            }
-            bigAppleTimer--;
-            if (bigAppleTimer <= 0) bigAppleActive = false;
-        }
-        if (currentActiveLevel == 0 && !bigAppleActive) {
-            spawnCooldown++;
-            if (spawnCooldown >= 90) {
-                spawnBigApple();
-                spawnCooldown = 0;
-            }
-        }
-        checkHit();
-
-        // Check for level completion targets
-        if (running && currentActiveLevel > 0) {
-            int target = 0;
-            switch (currentActiveLevel) {
-                case 1 -> target = 1;     //level 1
-                case 2 -> target = 2;     //level 2
-                case 3 -> target = 5;     //level 3
-                case 4 -> target = 6;     //level 4
-                case 5 -> target = 7;     //level 5
-                case 6 -> target = 8;     //level 6
-            }
-
-            if (foodEaten >= target) {
-                running = false;
-                levelWonThisSession = true;
-                unlockNextLevel();
-            }
-        }
-    }
-    repaint();
-}
-
-
-
-
-
-
-
-
-
-
-
-
     private void unlockNextLevel() {
         if(currentActiveLevel == 1) level2Unlocked = true;
         else if(currentActiveLevel == 2) level3Unlocked = true;
@@ -811,7 +742,6 @@ public void actionPerformed(ActionEvent e) {
         else if(currentActiveLevel == 4) level5Unlocked = true;
         else if(currentActiveLevel == 5) level6Unlocked = true;
     }
-
     public void addFood() {
         foodX = random.nextInt(WIDTH / UNIT_SIZE) * UNIT_SIZE;
         foodY = random.nextInt(GAME_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
@@ -820,14 +750,12 @@ public void actionPerformed(ActionEvent e) {
             foodY = random.nextInt(GAME_HEIGHT / UNIT_SIZE) * UNIT_SIZE;
         }
     }
-
     private void spawnBigApple() {
         bigAppleX = random.nextInt((WIDTH - UNIT_SIZE*2) / UNIT_SIZE) * UNIT_SIZE;
         bigAppleY = random.nextInt((GAME_HEIGHT - UNIT_SIZE*2) / UNIT_SIZE) * UNIT_SIZE;
         bigAppleActive = true;
         bigAppleTimer = 36;
     }
-
     private boolean isInsideAnyWall(int fx, int fy) {
         Rectangle r = new Rectangle(fx, fy + SCORE_HEIGHT, UNIT_SIZE, UNIT_SIZE);
         if (currentActiveLevel >= 1) for (Rectangle w : wallBlocks) if (r.intersects(w)) return true;
@@ -838,35 +766,94 @@ public void actionPerformed(ActionEvent e) {
         if (currentActiveLevel == 6) for (Rectangle w : level6Walls) if (r.intersects(w)) return true;
         return false;
     }
-
     private boolean isOnSnake(int fx, int fy) {
         for (int i = 0; i < length; i++) if (x[i] == fx && y[i] == fy) return true;
         return false;
     }
-
-    private void createEndButtons(boolean won) {
+    /// /////////////////////0000again01
+   /* private void createEndButtons(boolean won) {
         if (menuButton == null) {
-            menuButton = new JButton("Main Menu");
+            menuButton = new JButton("Menu");
             menuButton.setFocusable(false);
             menuButton.setBounds(180, 260, 140, 40);
-            menuButton.addActionListener(e -> goToMenu());
+/// /////////////////////////////////////////////////////////////01
+            menuButton.addActionListener(e -> {
+                playClickSound(); // Added
+                goToMenu();
+            });
+            /// //////////////////////////////////////////////01
             this.add(menuButton);
         }
         if (!won && restartButton == null) {
             restartButton = new JButton("Try Again");
             restartButton.setFocusable(false);
             restartButton.setBounds(180, 310, 140, 40);
-            restartButton.addActionListener(e -> startLevel(currentActiveLevel));
+            /// /////////////////////////////////////////////02
+            restartButton.addActionListener(e -> {
+                playClickSound(); // Added
+                startLevel(currentActiveLevel);
+            });
+            /// ///////////////////////////////////////////02
             this.add(restartButton);
         }
         if (won && nextLevelButton == null && currentActiveLevel < 6 && currentActiveLevel > 0) {
             nextLevelButton = new JButton("Next Level");
             nextLevelButton.setFocusable(false);
             nextLevelButton.setBounds(180, 310, 140, 40);
-            nextLevelButton.addActionListener(e -> startLevel(currentActiveLevel + 1));
-            this.add(nextLevelButton);
+           /// //////////////////////////////////////////////03
+            nextLevelButton.addActionListener(e -> {
+                playClickSound(); // Added
+                startLevel(currentActiveLevel + 1);
+            });
+            ///  //////////////////////////////////////03
         }
     }
+    */
+/// //////////////////////////////////////////////////////////000again02
+    private void createEndButtons(boolean won) {
+        if (menuButton == null) {
+            menuButton = new JButton("Menu");
+            menuButton.setFocusable(false);
+            menuButton.setBounds(180, 260, 140, 40);
+            menuButton.addActionListener(e -> {
+                playClickSound();
+                goToMenu();
+            });
+            this.add(menuButton);
+        }
+
+        if (!won && restartButton == null) {
+            restartButton = new JButton("Try Again");
+            restartButton.setFocusable(false);
+            restartButton.setBounds(180, 310, 140, 40);
+            restartButton.addActionListener(e -> {
+                playClickSound();
+                startLevel(currentActiveLevel);
+            });
+            this.add(restartButton);
+        }
+
+        // The fix is the 'this.add' line inside this block
+        if (won && nextLevelButton == null && currentActiveLevel < 6 && currentActiveLevel > 0) {
+            nextLevelButton = new JButton("Next Level");
+            nextLevelButton.setFocusable(false);
+            nextLevelButton.setBounds(180, 310, 140, 40);
+            nextLevelButton.addActionListener(e -> {
+                playClickSound();
+                startLevel(currentActiveLevel + 1);
+            });
+            this.add(nextLevelButton); // <--- FIXED: This line was missing!
+        }
+    }
+
+    // Helper method to handle button sounds
+    private void playClickSound() {
+        if (soundEnabled) {
+            playSound("click.wav");
+        }
+    }
+
+/// ////////////////////////////00000again03
 
     private void resetButtonStates() {
         if (restartButton != null) this.remove(restartButton);
@@ -876,14 +863,12 @@ public void actionPerformed(ActionEvent e) {
         if (soundToggleButton != null) this.remove(soundToggleButton);
         restartButton = menuButton = nextLevelButton = unlockToggleButton = soundToggleButton = null;
     }
-
     public void goToMenu() {
         running = false;
         bigAppleActive = false;
         resetButtonStates();
         showStartMenu();
     }
-
     private class MyKeyAdapter extends KeyAdapter {
         public void keyPressed(KeyEvent e) {
             switch (e.getKeyCode()) {
